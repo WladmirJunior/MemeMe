@@ -34,24 +34,8 @@ class MemeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         shareButton.isEnabled = false
-        
-        let memeTextAttributes: [NSAttributedString.Key: Any] = [
-            NSAttributedString.Key.strokeColor: UIColor.black,
-            NSAttributedString.Key.foregroundColor: UIColor.white,
-            NSAttributedString.Key.font: UIFont(name: "HelveticaNeue-CondensedBlack", size: 40)!,
-            NSAttributedString.Key.strokeWidth:  -4.0
-        ]
-        
-        topTextField.defaultTextAttributes = memeTextAttributes
-        bottomTextField.defaultTextAttributes = memeTextAttributes
-        
-        topTextField.text = Constants.topText
-        topTextField.delegate = self
-        topTextField.textAlignment = .center
-        
-        bottomTextField.text = Constants.bottomText
-        bottomTextField.delegate = self
-        bottomTextField.textAlignment = .center
+        setupTextField(topTextField, withText: Constants.topText)
+        setupTextField(bottomTextField, withText: Constants.bottomText)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -68,17 +52,11 @@ class MemeViewController: UIViewController {
     // MARK: - ACTIONS
     
     @IBAction func pickAnImageFromAlbum(_ sender: Any) {
-        let pickerController = UIImagePickerController()
-        pickerController.delegate = self
-        pickerController.sourceType = .photoLibrary
-        present(pickerController, animated: true, completion: nil)
+        chooseImageFromCameraOrPhoto(source: .photoLibrary)
     }
     
     @IBAction func pickAnImageFromCamera(_ sender: Any) {
-        let pickerController = UIImagePickerController()
-        pickerController.delegate = self
-        pickerController.sourceType = .camera
-        present(pickerController, animated: true, completion: nil)
+        chooseImageFromCameraOrPhoto(source: .camera)
     }
     
     @IBAction func shareAction(_ sender: Any) {
@@ -104,12 +82,34 @@ class MemeViewController: UIViewController {
     
     // MARK: - PRIVATE API
     
+    private func setupTextField(_ textField: UITextField, withText: String) {
+        let memeTextAttributes: [NSAttributedString.Key: Any] = [
+            NSAttributedString.Key.strokeColor: UIColor.black,
+            NSAttributedString.Key.foregroundColor: UIColor.white,
+            NSAttributedString.Key.font: UIFont(name: "HelveticaNeue-CondensedBlack", size: 40)!,
+            NSAttributedString.Key.strokeWidth:  -4.0
+        ]
+        
+        textField.defaultTextAttributes = memeTextAttributes
+        textField.delegate = self
+        textField.textAlignment = .center
+        textField.text = withText
+    }
+    
+    func chooseImageFromCameraOrPhoto(source: UIImagePickerController.SourceType) {
+        let pickerController = UIImagePickerController()
+        pickerController.delegate = self
+        pickerController.allowsEditing = true
+        pickerController.sourceType = source
+        present(pickerController, animated: true, completion: nil)
+    }
+    
     func save(_ meme: Meme) {
         UIImageWriteToSavedPhotosAlbum(meme.memeImage, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
     }
     
     @objc func image(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
-        if let error = error {            
+        if let error = error {
             showAlertWith(title: Constants.saveErrorTitle, message: error.localizedDescription)
         } else {
             showAlertWith(title: Constants.saveSuccessTitle, message: Constants.saveSuccessMessage)
