@@ -13,8 +13,6 @@ class MemeDetailViewController: UIViewController {
     var meme: Meme!
     
     @IBOutlet weak var memeImage: UIImageView!
-    @IBOutlet weak var topLabel: UITextField!
-    @IBOutlet weak var bottomLabel: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
