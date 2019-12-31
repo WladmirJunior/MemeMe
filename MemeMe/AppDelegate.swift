@@ -14,17 +14,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var memes = [Meme]()
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        
-        
-        memes.append(contentsOf: [
-            Meme(topText: "Conte me mais", bottomText: "", originalImage: UIImage(named: "meme1")!, memeImage: UIImage(named: "meme1")!),
-            Meme(topText: "", bottomText: "", originalImage: UIImage(named: "meme1")!, memeImage: UIImage(named: "meme2")!),
-            Meme(topText: "", bottomText: "", originalImage: UIImage(named: "meme1")!, memeImage: UIImage(named: "meme3")!),
-            Meme(topText: "", bottomText: "", originalImage: UIImage(named: "meme1")!, memeImage: UIImage(named: "meme4")!),
-            Meme(topText: "", bottomText: "", originalImage: UIImage(named: "meme1")!, memeImage: UIImage(named: "meme5")!)
-            
-        ])
-        
         return true
     }
 
