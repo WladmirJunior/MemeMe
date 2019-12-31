@@ -15,6 +15,8 @@ struct Constants {
     static let saveSuccessMessage = "Your image has been saved to your photos."
     static let saveErrorTitle = "Save error"
     static let ok = "OK"
+    static let collectionViewCell = "collectionViewCell"
+    static let tableViewCell = "tableViewCell"
 }
 
 class MemeViewController: UIViewController {
@@ -78,6 +80,7 @@ class MemeViewController: UIViewController {
         topTextField.text = Constants.topText
         bottomTextField.text = Constants.bottomText
         imagePickerView.image = nil
+        dismiss(animated: true, completion: nil)
     }
     
     // MARK: - PRIVATE API
@@ -106,6 +109,7 @@ class MemeViewController: UIViewController {
     
     func save(_ meme: Meme) {
         UIImageWriteToSavedPhotosAlbum(meme.memeImage, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
+        (UIApplication.shared.delegate as! AppDelegate).memes.append(meme)
     }
     
     @objc func image(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
