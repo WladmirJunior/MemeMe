@@ -17,6 +17,7 @@ struct Constants {
     static let ok = "OK"
     static let collectionViewCell = "collectionViewCell"
     static let tableViewCell = "tableViewCell"
+    static let memeDetailViewController = "MemeDetailViewController"
 }
 
 class MemeViewController: UIViewController {
